@@ -153,6 +153,26 @@ app.post("/logout", authMiddleware, (req, res) => {
 app.get("/me", authMiddleware, (req, res) => {
   res.json({ ok: true, user: { id: req.userId, email: req.userId } });
 });
+
+// Frontend will call this when a tab opens
+app.post("/tab-open", authMiddleware, (req, res) => {
+  const session = sessions.get(req.sid);
+  if (session) {
+    session.lastActivity = Date.now(); // update activity
+  }
+  res.json({ ok: true });
+});
+
+// Frontend will call this when a tab closes (using sendBeacon)
+app.post("/tab-close", authMiddleware, (req, res) => {
+  const sid = req.sid;
+  if (sid) {
+    sessions.delete(sid);           // delete session immediately
+    res.clearCookie("sid", cookieCookieOptions());
+  }
+  res.json({ ok: true });
+});
+
 app.get("/protected-data", authMiddleware, (req, res) => {
   res.json({ ok: true, data: `Hello ${req.userId}, this is protected.` });
 });
