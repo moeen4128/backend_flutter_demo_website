@@ -180,9 +180,9 @@ const INACTIVITY_LIMIT_MS = 90 * 120 * 1000; // 180 minutes (your original reaso
 
 // 🔸 Heartbeat config
 const HEARTBEAT_INTERVAL_CLIENT_MS = 3000;  // client sends every 3s
-const SERVER_TIMEOUT_MS = 4000;            // if no heartbeat for 4s => logout
+const SERVER_TIMEOUT_MS = 8000;            // if no heartbeat for 8s => logout
 
-const app = express();
+const app = express();s
 app.use(express.json());
 app.use(cookieParser());
 
